@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Letter for Danica</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap');
+
+:root {
+    --background-light: #eee4d3;
+    --background-dark: #d8c8ad;
+
+    --envelope: #e4cfaa;
+    --envelope-side: #dcc39d;
+    --envelope-bottom: #d1b78f;
+    --envelope-flap: #ead8b9;
+
+    --paper: #f7efdf;
+
+    --text: #30231c;
+    --heading: #5a3030;
+
+    --wax: #7d2527;
+    --wax-highlight: #8e3637;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    color: var(--text);
+
+    background:
+        radial-gradient(
+            circle at center,
+            var(--background-light) 0%,
+            var(--background-dark) 60%,
+            #b8a487 100%
+        );
+
+    position: relative;
+}
+
+
+/* =====================================================
+   NATURAL OVERGROWN VINES
+   ===================================================== */
+
+.vine {
+    position: fixed;
+    top: 0;
+    width: 58vw;
+    height: 100vh;
+
+    pointer-events: none;
+    z-index: 1;
+
+    opacity: .68;
+}
+
+.vine-left {
+    left: -2vw;
+}
+
+.vine-right {
+    right: -2vw;
+}
+
+.vine svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.vine-stem {
+    fill: none;
+    stroke: rgba(91, 67, 47, .27);
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+.vine-branch {
+    fill: none;
+    stroke: rgba(91, 67, 47, .21);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+
+/* =====================================================
+   LEAVES — softer, more organic botanical shape
+   ===================================================== */
+
+.vine-leaf {
+    fill: rgba(91, 67, 47, .19);
+    stroke: none;
+}
+
+.vine-leaf-light {
+    fill: rgba(91, 67, 47, .14);
+    stroke: none;
+}
+
+.vine-leaf-vein {
+    fill: none;
+    stroke: rgba(91, 67, 47, .16);
+    stroke-width: .75;
+    stroke-linecap: round;
+}
+
+
+/* =====================================================
+   TOP ORNAMENT
+   ===================================================== */
+
+.background-ornament {
+    position: fixed;
+    top: 31px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    color: rgba(65,45,32,.70);
+
+    font-size: 15px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+    user-select: none;
+
+    z-index: 3;
+}
+
+.background-ornament::before,
+.background-ornament::after {
+    content: "—";
+    font-size: 18px;
+    opacity: .6;
+}
+
+
+/* =====================================================
+   SCENE
+   ===================================================== */
+
+.scene {
+    position: relative;
+
+    width: min(90vw, 620px);
+    height: 600px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 5;
+}
+
+
+/* =====================================================
+   ENVELOPE
+   ===================================================== */
+
+.envelope {
+    position: relative;
+
+    width: min(80vw, 470px);
+    height: 300px;
+
+    background: var(--envelope);
+
+    transform: translateY(25px);
+
+    box-shadow:
+        0 28px 50px rgba(50,35,20,.25),
+        0 8px 15px rgba(50,35,20,.15);
+}
+
+
+/* =====================================================
+   LETTER
+   ===================================================== */
+
+.letter {
+    position: absolute;
+
+    left: 50%;
+    top: 35px;
+
+    width: 86%;
+    max-width: 390px;
+
+    min-height: 430px;
+
+    padding: 38px 34px;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,.42),
+            rgba(255,255,255,.42)
+        ),
+        var(--paper);
+
+    box-shadow:
+        0 10px 25px rgba(50,30,15,.20);
+
+    transform:
+        translateX(-50%)
+        translateY(90px);
+
+    opacity: 0;
+    visibility: hidden;
+
+    overflow-y: auto;
+    max-height: 460px;
+
+    z-index: 5;
+
+    transition:
+        transform 1.25s cubic-bezier(.2,.8,.2,1) .65s,
+        opacity .4s ease .65s,
+        visibility 0s linear 1.9s;
+}
+
+.letter::-webkit-scrollbar {
+    width: 8px;
+}
+
+.letter::-webkit-scrollbar-track {
+    background: rgba(80,55,35,.08);
+    border-radius: 10px;
+}
+
+.letter::-webkit-scrollbar-thumb {
+    background: rgba(91,67,47,.45);
+    border-radius: 10px;
+}
+
+.letter::-webkit-scrollbar-thumb:hover {
+    background: rgba(91,67,47,.60);
+}
+
+.letter {
+    scrollbar-width: thin;
+    scrollbar-color:
+        rgba(91,67,47,.45)
+        rgba(80,55,35,.08);
+}
+
+.envelope.open .letter {
+    transform:
+        translateX(-50%)
+        translateY(-300px);
+
+    opacity: 1;
+    visibility: visible;
+
+    z-index: 6;
+
+    transition:
+        transform 1.35s cubic-bezier(.2,.8,.2,1) .65s,
+        opacity .4s ease .65s,
+        visibility 0s linear 0s;
+}
+
+.envelope.letter-out .letter {
+    z-index: 12;
+}
+
+.letter h1 {
+    margin: 0 0 25px;
+
+    font-family: "Great Vibes", cursive;
+
+    font-size: 43px;
+    font-weight: 400;
+    line-height: 1.15;
+
+    color: var(--heading);
+}
+
+.letter p {
+    margin: 0 0 18px;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.65;
+    letter-spacing: 0.15px;
+}
+
+.memento {
+    font-family: "Great Vibes", cursive;
+
+    font-size: 32px;
+
+    color: var(--heading);
+
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.signature {
+    margin-top: 30px;
+
+    font-family: "Great Vibes", cursive;
+
+    font-size: 32px;
+
+    color: var(--heading);
+}
+
+
+/* =====================================================
+   ENVELOPE FRONT
+   ===================================================== */
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+
+    overflow: hidden;
+
+    z-index: 8;
+
+    pointer-events: none;
+}
+
+.envelope-front::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 0;
+
+    border-left: 235px solid var(--envelope-side);
+    border-top: 150px solid transparent;
+    border-bottom: 150px solid transparent;
+}
+
+.envelope-front::after {
+    content: "";
+
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 0;
+
+    border-right: 235px solid var(--envelope-side);
+    border-top: 150px solid transparent;
+    border-bottom: 150px solid transparent;
+}
+
+
+/* =====================================================
+   BOTTOM FLAP
+   ===================================================== */
+
+.bottom-flap {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 0;
+
+    border-left: 235px solid transparent;
+    border-right: 235px solid transparent;
+    border-bottom: 170px solid var(--envelope-bottom);
+
+    z-index: 9;
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   TOP FLAP
+   ===================================================== */
+
+.flap {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 0;
+
+    border-left: 235px solid transparent;
+    border-right: 235px solid transparent;
+    border-top: 165px solid var(--envelope-flap);
+
+    transform-origin: top center;
+
+    transform: rotateX(0deg);
+
+    transition:
+        transform 1.15s cubic-bezier(.65,0,.35,1);
+
+    z-index: 11;
+
+    filter:
+        drop-shadow(
+            0 4px 4px rgba(0,0,0,.08)
+        );
+}
+
+.envelope.open .flap {
+    transform: rotateX(180deg);
+    z-index: 2;
+}
+
+.envelope.letter-out .envelope-front,
+.envelope.letter-out .bottom-flap {
+    z-index: 4;
+}
+
+
+/* =====================================================
+   WAX SEAL
+   ===================================================== */
+
+.wax-seal {
+    position: absolute;
+
+    left: 50%;
+    top: 150px;
+
+    width: 82px;
+    height: 82px;
+
+    transform: translateX(-50%);
+
+    z-index: 20;
+
+    cursor: pointer;
+
+    background:
+        radial-gradient(
+            circle at 28% 22%,
+            rgba(255,255,255,.18),
+            transparent 18%
+        ),
+        radial-gradient(
+            circle at 70% 75%,
+            rgba(0,0,0,.25),
+            transparent 38%
+        ),
+        var(--wax);
+
+    border-radius:
+        47% 53% 49% 51%
+        /
+        54% 45% 55% 46%;
+
+    box-shadow:
+        inset 4px 5px 7px rgba(255,255,255,.14),
+        inset -5px -7px 10px rgba(40,5,5,.35),
+        0 5px 10px rgba(50,20,10,.25);
+
+    outline:
+        1px solid rgba(255,210,190,.20);
+
+    outline-offset: -7px;
+
+    transition:
+        transform .25s ease,
+        filter .25s ease;
+}
+
+.wax-seal::before,
+.wax-seal::after {
+    content: "";
+
+    position: absolute;
+
+    background: var(--wax);
+
+    border-radius: 50%;
+}
+
+.wax-seal::before {
+    width: 20px;
+    height: 25px;
+
+    left: -5px;
+    top: 18px;
+
+    box-shadow:
+        68px 7px 0 -3px var(--wax),
+        14px 62px 0 -4px var(--wax),
+        55px 59px 0 -5px var(--wax);
+}
+
+.wax-seal::after {
+    width: 11px;
+    height: 15px;
+
+    left: 23px;
+    bottom: -9px;
+
+    border-radius:
+        50% 50% 55% 55%;
+}
+
+.wax-seal .ring {
+    position: absolute;
+
+    inset: 13px;
+
+    border:
+        1px solid rgba(255,215,190,.35);
+
+    border-radius: 50%;
+
+    z-index: 2;
+
+    pointer-events: none;
+}
+
+.wax-seal .initial {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Georgia, serif;
+
+    font-size: 34px;
+    font-weight: bold;
+
+    color: var(--wax-highlight);
+
+    text-shadow:
+        1px 1px 1px rgba(255,210,190,.3),
+        -1px -1px 1px rgba(45,5,5,.55);
+
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+.wax-seal:hover {
+    transform:
+        translateX(-50%)
+        scale(1.08)
+        rotate(-2deg);
+
+    filter: brightness(1.08);
+}
+
+.envelope.open .wax-seal {
+    animation:
+        sealFall .75s cubic-bezier(.55,.06,.68,.19) forwards;
+
+    pointer-events: none;
+}
+
+@keyframes sealFall {
+
+    0% {
+        transform:
+            translateX(-50%)
+            translateY(0)
+            rotate(0deg)
+            scale(1);
+
+        opacity: 1;
+    }
+
+    20% {
+        transform:
+            translateX(-50%)
+            translateY(-5px)
+            rotate(-7deg)
+            scale(1.04);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            translateY(110px)
+            rotate(30deg)
+            scale(.65);
+
+        opacity: 0;
+    }
+}
+
+
+/* =====================================================
+   CRACK
+   ===================================================== */
+
+.crack {
+    position: absolute;
+
+    left: 50%;
+    top: 150px;
+
+    width: 3px;
+    height: 55px;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(255,220,205,.9),
+            transparent
+        );
+
+    transform:
+        translateX(-50%)
+        rotate(27deg)
+        scaleY(0);
+
+    opacity: 0;
+
+    z-index: 21;
+
+    pointer-events: none;
+}
+
+.envelope.open .crack {
+    animation:
+        crack .35s ease forwards;
+}
+
+@keyframes crack {
+
+    0% {
+        transform:
+            translateX(-50%)
+            rotate(27deg)
+            scaleY(0);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            rotate(27deg)
+            scaleY(1);
+
+        opacity: 0;
+    }
+}
+
+
+/* =====================================================
+   INSTRUCTION
+   ===================================================== */
+
+.instruction {
+    position: absolute;
+
+    bottom: -10px;
+
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 16px;
+    letter-spacing: 2px;
+
+    color: rgba(46,33,27,.78);
+
+    transition:
+        opacity .5s ease;
+}
+
+.envelope.open ~ .instruction {
+    opacity: 0;
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    .scene {
+        height: 500px;
+    }
+
+    .envelope {
+        width: 90vw;
+        height: 240px;
+    }
+
+    .envelope-front::before {
+        border-left-width: 45vw;
+        border-top-width: 120px;
+        border-bottom-width: 120px;
+    }
+
+    .envelope-front::after {
+        border-right-width: 45vw;
+        border-top-width: 120px;
+        border-bottom-width: 120px;
+    }
+
+    .bottom-flap {
+        border-left-width: 45vw;
+        border-right-width: 45vw;
+        border-bottom-width: 135px;
+    }
+
+    .flap {
+        border-left-width: 45vw;
+        border-right-width: 45vw;
+        border-top-width: 135px;
+    }
+
+    .wax-seal {
+        width: 70px;
+        height: 70px;
+        top: 120px;
+    }
+
+    .crack {
+        top: 120px;
+    }
+
+    .letter {
+        width: 88%;
+        padding: 30px 25px;
+        min-height: 350px;
+        max-height: 400px;
+    }
+
+    .letter h1 {
+        font-size: 37px;
+    }
+
+    .letter p {
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.6;
+        letter-spacing: 0.1px;
+    }
+
+    .memento {
+        font-size: 28px;
+    }
+
+    .envelope.open .letter {
+        transform:
+            translateX(-50%)
+            translateY(-250px);
+    }
+
+    .vine {
+        width: 75vw;
+        opacity: .48;
+    }
+
+    .vine-left {
+        left: -18vw;
+    }
+
+    .vine-right {
+        right: -18vw;
+    }
+
+    .background-ornament {
+        font-size: 12px;
+        letter-spacing: 3px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     LEFT SIDE VINES
+     ===================================================== -->
+
+<div class="vine vine-left">
+
+<svg viewBox="0 0 700 1000" preserveAspectRatio="none">
+
+    <defs>
+
+        <!-- CLEANER ORGANIC LEAF -->
+        <g id="leaf">
+
+            <path
+                class="vine-leaf"
+                d="
+                    M -1 0
+                    C -0.72 -0.48, -0.18 -0.78, 0.42 -0.62
+                    C 0.72 -0.54, 0.92 -0.22, 1 0
+                    C 0.78 0.30, 0.48 0.60, 0.12 0.68
+                    C -0.38 0.78, -0.76 0.42, -1 0
+                    Z
+                "
+            />
+
+            <path
+                class="vine-leaf-vein"
+                d="
+                    M -0.82 0
+                    C -0.35 -0.01, 0.20 -0.03, 0.82 0
+                "
+            />
+
+        </g>
+
+
+        <!-- LIGHTER ORGANIC LEAF -->
+        <g id="leaf-light">
+
+            <path
+                class="vine-leaf-light"
+                d="
+                    M -1 0
+                    C -0.70 -0.44, -0.18 -0.70, 0.40 -0.57
+                    C 0.70 -0.50, 0.92 -0.20, 1 0
+                    C 0.72 0.30, 0.44 0.54, 0.08 0.63
+                    C -0.38 0.70, -0.76 0.38, -1 0
+                    Z
+                "
+            />
+
+            <path
+                class="vine-leaf-vein"
+                d="
+                    M -0.82 0
+                    C -0.35 -0.01, 0.20 -0.03, 0.82 0
+                "
+            />
+
+        </g>
+
+    </defs>
+
+
+    <path class="vine-stem"
+        d="
+        M -20 1030
+        C 55 930, 15 865, 105 790
+        C 170 735, 105 665, 210 600
+        C 300 545, 235 470, 330 405
+        C 405 355, 350 280, 445 220
+        C 510 180, 555 135, 680 120
+        " />
+
+    <path class="vine-stem"
+        d="
+        M 25 700
+        C 85 645, 30 575, 95 515
+        C 150 465, 120 390, 185 330
+        C 250 270, 215 195, 300 110
+        C 345 65, 375 45, 410 10
+        " />
+
+    <path class="vine-stem"
+        d="
+        M -10 390
+        C 70 360, 50 285, 125 250
+        C 190 220, 175 150, 240 95
+        " />
+
+
+    <path class="vine-branch"
+        d="M 70 825 C 10 795, -5 745, -20 700" />
+
+    <path class="vine-branch"
+        d="M 105 790 C 170 805, 220 780, 250 735" />
+
+    <path class="vine-branch"
+        d="M 120 700 C 65 665, 35 625, 25 575" />
+
+    <path class="vine-branch"
+        d="M 160 665 C 225 675, 270 645, 290 605" />
+
+    <path class="vine-branch"
+        d="M 210 600 C 165 555, 155 510, 170 465" />
+
+    <path class="vine-branch"
+        d="M 245 575 C 315 590, 350 560, 370 515" />
+
+    <path class="vine-branch"
+        d="M 330 405 C 275 375, 250 330, 255 285" />
+
+    <path class="vine-branch"
+        d="M 365 385 C 430 405, 475 380, 495 335" />
+
+    <path class="vine-branch"
+        d="M 445 220 C 410 175, 415 135, 440 95" />
+
+    <path class="vine-branch"
+        d="M 480 205 C 545 225, 595 205, 625 165" />
+
+    <path class="vine-branch"
+        d="M 95 515 C 40 490, 15 450, 15 410" />
+
+    <path class="vine-branch"
+        d="M 130 485 C 190 500, 225 475, 245 435" />
+
+    <path class="vine-branch"
+        d="M 185 330 C 145 285, 145 245, 165 210" />
+
+    <path class="vine-branch"
+        d="M 215 305 C 275 325, 315 300, 330 255" />
+
+    <path class="vine-branch"
+        d="M 300 110 C 270 75, 275 40, 295 10" />
+
+    <path class="vine-branch"
+        d="M 325 90 C 365 105, 400 85, 420 55" />
+
+
+    <use href="#leaf"
+        transform="translate(18 805) rotate(-42) scale(31 13)" />
+
+    <use href="#leaf-light"
+        transform="translate(85 775) rotate(25) scale(26 11)" />
+
+    <use href="#leaf"
+        transform="translate(195 795) rotate(-18) scale(35 14)" />
+
+    <use href="#leaf-light"
+        transform="translate(230 735) rotate(47) scale(28 12)" />
+
+    <use href="#leaf"
+        transform="translate(55 660) rotate(-63) scale(32 13)" />
+
+    <use href="#leaf-light"
+        transform="translate(95 620) rotate(28) scale(27 11)" />
+
+    <use href="#leaf"
+        transform="translate(255 665) rotate(-25) scale(34 13)" />
+
+    <use href="#leaf-light"
+        transform="translate(290 610) rotate(48) scale(29 12)" />
+
+    <use href="#leaf"
+        transform="translate(145 550) rotate(-50) scale(30 12)" />
+
+    <use href="#leaf-light"
+        transform="translate(180 510) rotate(30) scale(27 11)" />
+
+    <use href="#leaf"
+        transform="translate(335 575) rotate(-12) scale(34 14)" />
+
+    <use href="#leaf-light"
+        transform="translate(365 520) rotate(53) scale(28 12)" />
+
+    <use href="#leaf"
+        transform="translate(275 375) rotate(-46) scale(33 13)" />
+
+    <use href="#leaf-light"
+        transform="translate(255 315) rotate(22) scale(27 11)" />
+
+    <use href="#leaf"
+        transform="translate(440 395) rotate(-18) scale(35 14)" />
+
+    <use href="#leaf-light"
+        transform="translate(490 335) rotate(42) scale(29 12)" />
+
+    <use href="#leaf"
+        transform="translate(415 180) rotate(-55) scale(32 13)" />
+
+    <use href="#leaf-light"
+        transform="translate(440 115) rotate(25) scale(27 11)" />
+
+    <use href="#leaf"
+        transform="translate(555 220) rotate(-15) scale(35 14)" />
+
+    <use href="#leaf-light"
+        transform="translate(620 165) rotate(38) scale(28 12)" />
+
+    <use href="#leaf"
+        transform="translate(50 480) rotate(-65) scale(30 12)" />
+
+    <use href="#leaf-light"
+        transform="translate(105 490) rotate(18) scale(27 11)" />
+
+    <use href="#leaf"
+        transform="translate(180 285) rotate(-52) scale(32 13)" />
+
+    <use href="#leaf-light"
+        transform="translate(220 320) rotate(30) scale(28 11)" />
+
+    <use href="#leaf"
+        transform="translate(290 80) rotate(-48) scale(32 13)" />
+
+    <use href="#leaf-light"
+        transform="translate(350 100) rotate(22) scale(28 11)" />
+
+</svg>
+
+</div>
+
+
+<!-- =====================================================
+     RIGHT SIDE VINES
+     ===================================================== -->
+
+<div class="vine vine-right">
+
+<svg viewBox="0 0 700 1000" preserveAspectRatio="none">
+
+    <defs>
+
+        <g id="leaf-right">
+
+            <path
+                class="vine-leaf"
+                d="
+                    M -1 0
+                    C -0.72 -0.48, -0.18 -0.78, 0.42 -0.62
+                    C 0.72 -0.54, 0.92 -0.22, 1 0
+                    C 0.78 0.30, 0.48 0.60, 0.12 0.68
+                    C -0.38 0.78, -0.76 0.42, -1 0
+                    Z
+                "
+            />
+
+            <path
+                class="vine-leaf-vein"
+                d="
+                    M -0.82 0
+                    C -0.35 -0.01, 0.20 -0.03, 0.82 0
+                "
+            />
+
+        </g>
+
+
+        <g id="leaf-right-light">
+
+            <path
+                class="vine-leaf-light"
+                d="
+                    M -1 0
+                    C -0.70 -0.44, -0.18 -0.70, 0.40 -0.57
+                    C 0.70 -0.50, 0.92 -0.20, 1 0
+                    C 0.72 0.30, 0.44 0.54, 0.08 0.63
+                    C -0.38 0.70, -0.76 0.38, -1 0
+                    Z
+                "
+            />
+
+            <path
+                class="vine-leaf-vein"
+                d="
+                    M -0.82 0
+                    C -0.35 -0.01, 0.20 -0.03, 0.82 0
+                "
+            />
+
+        </g>
+
+    </defs>
+
+
+    <path class="vine-stem"
+        d="
+        M 725 1030
+        C 655 940, 700 865, 600 800
+        C 520 750, 610 665, 500 610
+        C 420 570, 510 480, 405 415
+        C 330 370, 405 300, 315 245
+        C 245 205, 175 165, 25 145
+        " />
+
+    <path class="vine-stem"
+        d="
+        M 690 710
+        C 620 675, 660 595, 590 545
+        C 520 495, 575 420, 505 365
+        C 450 325, 470 245, 400 195
+        C 345 155, 320 100, 330 25
+        " />
+
+    <path class="vine-stem"
+        d="
+        M 720 420
+        C 640 400, 655 325, 575 290
+        C 500 255, 530 185, 455 145
+        C 395 115, 350 80, 315 5
+        " />
+
+
+    <path class="vine-branch"
+        d="M 645 860 C 700 820, 720 775, 735 725" />
+
+    <path class="vine-branch"
+        d="M 600 800 C 535 820, 490 795, 465 750" />
+
+    <path class="vine-branch"
+        d="M 555 715 C 615 690, 645 650, 650 600" />
+
+    <path class="vine-branch"
+        d="M 500 610 C 445 625, 410 600, 395 555" />
+
+    <path class="vine-branch"
+        d="M 465 500 C 525 520, 565 495, 585 450" />
+
+    <path class="vine-branch"
+        d="M 405 415 C 350 440, 315 420, 300 380" />
+
+    <path class="vine-branch"
+        d="M 370 340 C 430 360, 470 340, 485 295" />
+
+    <path class="vine-branch"
+        d="M 315 245 C 270 210, 260 170, 275 125" />
+
+    <path class="vine-branch"
+        d="M 270 215 C 205 230, 160 205, 135 160" />
+
+    <path class="vine-branch"
+        d="M 590 545 C 635 515, 660 475, 660 430" />
+
+    <path class="vine-branch"
+        d="M 545 475 C 485 490, 450 465, 435 425" />
+
+    <path class="vine-branch"
+        d="M 505 365 C 545 330, 550 285, 535 245" />
+
+    <path class="vine-branch"
+        d="M 445 325 C 385 345, 350 320, 335 275" />
+
+    <path class="vine-branch"
+        d="M 400 195 C 350 165, 340 120, 350 80" />
+
+    <path class="vine-branch"
+        d="M 375 175 C 425 185, 460 160, 470 120" />
+
+    <path class="vine-branch"
+        d="M 575 290 C 520 310, 490 285, 475 245" />
+
+    <path class="vine-branch"
+        d="M 455 145 C 400 135, 365 105, 350 65" />
+
+
+    <use href="#leaf-right"
+        transform="translate(700 825) rotate(43) scale(34 14)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(540 805) rotate(-28) scale(28 11)" />
+
+    <use href="#leaf-right"
+        transform="translate(615 720) rotate(58) scale(32 13)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(445 605) rotate(-18) scale(29 12)" />
+
+    <use href="#leaf-right"
+        transform="translate(545 515) rotate(28) scale(35 14)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(580 455) rotate(-48) scale(27 11)" />
+
+    <use href="#leaf-right"
+        transform="translate(350 430) rotate(18) scale(33 13)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(300 380) rotate(-43) scale(28 12)" />
+
+    <use href="#leaf-right"
+        transform="translate(430 350) rotate(53) scale(35 14)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(480 295) rotate(-22) scale(28 11)" />
+
+    <use href="#leaf-right"
+        transform="translate(275 215) rotate(-50) scale(32 13)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(145 160) rotate(25) scale(29 12)" />
+
+    <use href="#leaf-right"
+        transform="translate(535 535) rotate(48) scale(31 13)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(650 475) rotate(-20) scale(28 11)" />
+
+    <use href="#leaf-right"
+        transform="translate(485 470) rotate(22) scale(34 14)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(435 425) rotate(-48) scale(28 11)" />
+
+    <use href="#leaf-right"
+        transform="translate(545 325) rotate(55) scale(32 13)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(535 245) rotate(-30) scale(28 11)" />
+
+    <use href="#leaf-right"
+        transform="translate(390 340) rotate(17) scale(34 14)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(335 275) rotate(-44) scale(27 11)" />
+
+    <use href="#leaf-right"
+        transform="translate(350 165) rotate(60) scale(32 13)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(470 160) rotate(-25) scale(28 11)" />
+
+    <use href="#leaf-right"
+        transform="translate(400 120) rotate(35) scale(34 13)" />
+
+    <use href="#leaf-right-light"
+        transform="translate(350 65) rotate(-50) scale(27 11)" />
+
+</svg>
+
+</div>
+
+
+<div class="background-ornament">
+    Memento Vivere, xoxo
+</div>
+
+
+<audio
+    id="birthdaySong"
+    src="danicasong.mp3"
+    preload="auto"
+    loop
+></audio>
+
+
+<div class="scene">
+
+    <div
+        class="envelope"
+        id="envelope"
+    >
+
+        <div class="letter">
+
+            <h1>
+                Happy Birthday,<br>
+                Dani.
+            </h1>
+
+            <p>
+                On the day you were born, the world gained
+                another life worth celebrating. So I hope,
+                on your birthday, you remember to live that
+                life too.
+            </p>
+
+            <p>
+                Not just to survive through the days, not
+                just to become who you think you're supposed
+                to be, and not to rush toward some version
+                of yourself you haven't reached yet.
+            </p>
+
+            <p>
+                Take your time. Go places, try things, make
+                stupid mistakes, laugh until your stomach
+                hurts. Let yourself change your mind, let
+                yourself become someone you haven't imagined
+                yet.
+            </p>
+
+            <p>
+                There is no deadline for becoming, and there
+                shouldn't be a deadline for living either.
+            </p>
+
+            <p>
+                So today, and in all the days that follow,
+                <span class="memento">memento vivere.</span>
+            </p>
+
+            <div class="signature">
+                — Vanz
+            </div>
+
+        </div>
+
+
+        <div class="envelope-front"></div>
+
+        <div class="bottom-flap"></div>
+
+        <div class="flap"></div>
+
+
+        <div
+            class="wax-seal"
+            onclick="openEnvelope()"
+            title="Open letter"
+        >
+
+            <div class="ring"></div>
+
+            <div class="initial">
+                D
+            </div>
+
+        </div>
+
+
+        <div class="crack"></div>
+
+    </div>
+
+
+    <div class="instruction">
+        click the seal to open
+    </div>
+
+</div>
+
+
+<script>
+
+function openEnvelope() {
+
+    const envelope =
+        document.getElementById("envelope");
+
+    const song =
+        document.getElementById("birthdaySong");
+
+    if (envelope.classList.contains("open")) {
+        return;
+    }
+
+    envelope.classList.add("open");
+
+    song.volume = 0.45;
+
+    song.play().catch(function(error) {
+        console.log("Audio could not start:", error);
+    });
+
+    setTimeout(function() {
+        envelope.classList.add("letter-out");
+    }, 2100);
+
+}
+
+</script>
+
+</body>
+</html>
